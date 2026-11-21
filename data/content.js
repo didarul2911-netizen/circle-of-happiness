@@ -20,50 +20,37 @@ window.CONTENT = {
   ],
   signature: "আপনার শুভাকাঙ্ক্ষী",
 
-  // জন্মদিনের অংশের পোলারয়েড ছবি
-  birthdayPhotos: [
-    { img: "m24-smile", cap: "সুচিস্মিতা" },
+  // ----- জন্মদিন অংশ -----
+  // ছোটবেলার ছবি (বাবার সাথে)
+  childhood: { img: "childhood", cap: "বাবার সাথে ছোট্ট মোবাশ্বিরা" },
+
+  // চিঠির আগে: টোকা দিলে একটা একটা করে সরে যাবে
+  stack: [
     { img: "blue-jhumka", cap: "নীল ঝুমকা" },
+    { img: "m15-pensive", cap: "সুচিস্মিতা" },
     { img: "snap-pink", cap: "Orange person" },
-    { img: "glasses-chin", cap: "ভাবুক" },
+    { img: "glasses-chin", cap: "My Favourite Notification" },
     { img: "m40-smile", cap: "এই হাসিটা" },
-    { img: "snap-black-floral", cap: "My Favourite Notification" }
+    { img: "m38-swing", cap: "সাদা শাড়ি" }
   ],
 
-  // মাসে মাসে আমাদের গল্প। নতুন মাস হলে নিচে যোগ করো।
-  journey: [
-    { month: "2026-03", text: "পনেরোই মার্চ, পরিচয়। তখনো জানা ছিল না একটা নাম একদিন সবচেয়ে প্রিয় notification হয়ে যাবে।" },
-    { month: "2026-04", text: "বৈশাখী মেলা, Bailey Road, লাল শাড়ি। গাড়িতে বসে অপেক্ষা, তারপর প্রথম দেখা। কয়েকদিন পরেই লাজুক হাসি আর লুচি।", photo: "m03-lajuk" },
-    { month: "2026-05", text: "বৃষ্টির মধ্যে গাড়িতে এক earbuds-এ গান, এক ছাতার নিচে দুজন, প্রথম হাত মেলানো। ঈদের আগে রোজ অফিসের পরে দেখা।", photo: "m15-alley" },
-    { month: "2026-06", text: "একশোতম দিন। ফুল নিতে ফিরে আসা, Mohanogor-এ অনেকক্ষণ হাঁটা। আকাশে অর্ধেক চাঁদ, আর অর্ধেক চাঁদ পাশে।", photo: "m24-window" },
-    { month: "2026-07", text: "বৃষ্টি আর রিকশা, প্রথমবার শুধু একটা চিঠি হাতে। তারপর দূরে থাকা, আবার ফিরে দেখা, off-white শাড়িতে।", photo: "m29-pearlchuri" },
-    { month: "2026-08", text: "ছোট্ট একটা ছাতা, ফুটপাত থেকে মেরুন চুড়ি, বাসার নিচে অপেক্ষা।", photo: "m31-eye" },
-    { month: "2026-09", text: "সাদা শাড়ি আর কাশফুলের দিন। তারপর Lego-র সূর্যমুখী, যেটা কখনো শুকাবে না।", photo: "m38-kash1" },
-    { month: "2026-10", text: "শহীদ মিনারের মেলা, অনেকদিনের শখের সূর্যমুখী, আর কারেন্ট চলে যাওয়া এক সন্ধ্যায় অন্ধকারে বসে গল্প।", photo: "m47-sunflower" },
-    { month: "2026-11", text: "অনেকদিনের অপেক্ষার পর আবার দেখা। হাত ধরে হাঁটা, আর Al Kaderia-তে ফিরে যাওয়া, যেখানে কত গল্প জমে আছে।", photo: "m49-letter" }
-  ],
+  // চিঠির পরে: ছড়ানো ছবি, আঙুল দিয়ে সরানো যায়
+  collage: ["m24-smile", "m47-sunflower", "m38-kash1", "m44-bun", "snap-black-floral", "m49-letter"],
 
-  // যে দিনগুলো একেবারেই ভোলার মতো না। meets.js-এ "best": true দেওয়া দিনগুলোই এখানে আসে।
-  // এখানে শুধু শিরোনাম আর এক লাইন লেখা। photos না দিলে meets.js-এর ছবি দেখাবে।
-  highlights: {
-    1:  { title: "লাল শাড়ি, গাড়িতে অপেক্ষা", line: "বৈশাখী মেলা, Bailey Road। প্রথম দেখা, আর সেদিনের ফুল আর চিঠি।" },
-    6:  { title: "Cold coffee হাতে অপেক্ষা", line: "Khilgaon-এ কফি নিয়ে দাঁড়িয়ে থাকা, আর দেওয়া T-shirt-টা পরে আপনার আসা।" },
-    9:  { title: "বৃষ্টি, গাড়ি, এক earbuds-এ গান", line: "হাতে নাম লেখা, Miniso-র hair clip, আর বাইরে বৃষ্টি। জীবনের একটা perfect moment।" },
-    13: { title: "রিকশা থেকে লাফ দিয়ে নামা", line: "Danish chicken, লাচ্ছি, ভালোবাসার আকারের কানের দুল, আর বাসার সামনে তিন মিনিট।" },
-    14: { title: "এক ছাতার নিচে দুজন", line: "মেঘলা আকাশ, বৃষ্টি, Military Museum থেকে বিজয় সরণি পর্যন্ত হাঁটা। প্রথম হাত মেলানো।" },
-    15: { title: "এমন একটা দিন… এত খুশির দিন" },
-    16: { title: "জীবনের অন্যতম সেরা দিন" },
-    20: { title: "গাড়িতে গান, আর নীল চুড়ি", line: "বাসার সামনে থেকে তুলে নেওয়া, Bailey Road, Khilgaon-এর cold coffee, তারপর আবার বাসার সামনে।" },
-    22: { title: "একশোতম দিন, আর ফুল নিতে ফিরে আসা", line: "পেছন ফিরে তাকানো, তারপর ফুল নিতে ফিরে আসা। জীবনের সেরা মুহূর্তগুলোর একটা।", photos: ["m21-ful"] },
-    24: { title: "Terracotta Tales, আর পাশে পূর্ণিমা", line: "সুন্দর জামাটা, চিঠি পড়া, Mohanogor Project-এ এক ঘণ্টা হাঁটা। পাশে ছিল পূর্ণ চাঁদ।" },
-    38: { title: "সাদা শাড়ি, Wind Lounge আর কাশফুল", roll: true },
-    44: { title: "অন্ধকারে দেখা", line: "কারেন্ট নেই, তবু দেখা। পাশাপাশি বসে Facebook scroll করা, আর চুলের কাঁটা।" },
-    47: { title: "মেলার শেষ দিন, অনেকদিনের শখের সূর্যমুখী", photos: ["m47-sunflower", "m47-balloon", "m47-hiding", "m47-cupflower", "m47-crimson"] },
-    48: { title: "অপেক্ষার পর দেখা", line: "সবচেয়ে লম্বা অপেক্ষার পর আবার দেখা। IBA থেকে Bashundhara City, sweet corn আর আইসক্রিম।" },
-    50: { title: "পঞ্চাশতম দেখা, আবার Al Kaderia-তে", line: "রাস্তায় কথা বলতে বলতে দেখা, আর সব দেখার গল্প নিয়ে লেখা।" }
+  // ----- আমাদের দিনগুলো অংশ -----
+  // প্রতি মাসের উপরের ছবি। নতুন মাস হলে এখানে যোগ করো।
+  monthPhotos: {
+    "2026-04": "m03-lajuk",
+    "2026-05": "m15-mirror",
+    "2026-06": "m24-window",
+    "2026-07": "m29-pearlchuri",
+    "2026-08": "m32-kitkat",
+    "2026-09": "m38-kash1",
+    "2026-10": "m47-sunflower",
+    "2026-11": "m49-letter"
   },
 
-  // সাদা শাড়ির দিনের পুরো ফিল্ম-রোল (২৬ সেপ্টেম্বরের দিনের সাথে দেখায়)
+  // সাদা শাড়ির দিনের পুরো ফিল্ম-রোল (২৬ সেপ্টেম্বরের দেখার সাথে দেখায়)
   sareeRoll: ["m38-swing", "m38-door", "m38-door2", "m38-side", "m38-deck", "m38-deck2", "m38-city", "m38-lounge", "m38-garden", "m38-mirror", "m38-kash3", "m38-kash1", "m38-kash2"],
 
   // হাতে লেখা চিঠিগুলো
@@ -86,38 +73,5 @@ window.CONTENT = {
     { img: "l-1008", date: "2026-10-08" },
     { img: "l-1013", date: "2026-10-13" },
     { img: "l-1101", date: "2026-11-01" }
-  ],
-
-  // যে গানগুলো আপনার
-  songs: [
-    "পালাতে পারিনি, ধরা পড়ে গেছি নিজেরই কাছে",
-    "কেন আগে দেখিনি, বুঝিনি কেন",
-    "Tumi akasher buke bishalotar upoma",
-    "আমি তোমায় ভালোবাসি",
-    "Ami prothom dekhai pagol holam",
-    "Jodi bare bare prem",
-    "তোমার মুখের হাসি",
-    "এখন অনেক রাত",
-    "Angule angul",
-    "Chai na meye tumi",
-    "বৃত্তের ভেতর শুধু তুমি আছো",
-    "তুমি নীল ছাতা নিয়ে দাঁড়িয়ে",
-    "একটা গান মেঘের মতো",
-    "Prithibir joto valobasha",
-    "তোমার নামের রোদ্দুরে",
-    "Shohagh chand bodoni",
-    "Suno na suno na",
-    "Hum safar",
-    "Jhalla wallah",
-    "Mast Kalandar",
-    "Khubsurat hai tu",
-    "Banjaara",
-    "Ambarsariya",
-    "Meri dil mein thodi si khali si jagah",
-    "Dheere dheere se meri zindagi mein aana",
-    "Tujhe dekha to ye jaana sanam",
-    "Teri nazar",
-    "Tera hero idhar hai"
-  ],
-  favMovie: "Jab We Met"
+  ]
 };

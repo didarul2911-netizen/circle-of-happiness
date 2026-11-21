@@ -388,8 +388,7 @@ window.MEETS = [
       "100 days letter",
       "Oven Baked Pasta",
       "Meatbox",
-      "Eksathe Rastay Hata (half moon akashe",
-      "half amar pashe)",
+      "Eksathe Rastay Hata (half moon akashe, half amar pashe)",
       "Ful na niye chole jawa"
     ],
     "note": "",
@@ -581,7 +580,9 @@ window.MEETS = [
       "Mobile Shop a khoj neya mobile thik korar jnno"
     ],
     "note": "",
-    "photos": [],
+    "photos": [
+      "m32-kitkat"
+    ],
     "best": false
   },
   {
@@ -658,8 +659,7 @@ window.MEETS = [
     "items": [
       "জীবনের অন্যতম সেরা দিন",
       "কাওরান বাজার থেকে জাহাজ বিল্ডিং",
-      "বাসার সামনে থেকে Pathao Car এ করে Pick করে Wind Lounge (যেখানে 2nd meet",
-      "20 April এ যাওয়ার কথা ছিল.. সেটাও পূর্ণতা পেলো)",
+      "বাসার সামনে থেকে Pathao Car এ করে Pick করে Wind Lounge (যেখানে 2nd meet, 20 April এ যাওয়ার কথা ছিল.. সেটাও পূর্ণতা পেলো)",
       "সাদা শাড়ি টা পরা দেখে প্রাণ জুড়িয়ে যাওয়া",
       "অফিসের প্রোগ্রাম থেকে চকোলেট এবং চুড়ি",
       "Wind Lounge এ পিক তোলা",
@@ -708,7 +708,8 @@ window.MEETS = [
       "m40-lamp"
     ],
     "best": false,
-    "video": "lego-gift"
+    "video": "lego-gift",
+    "poster": "earring-poster"
   },
   {
     "n": 41,
@@ -866,8 +867,7 @@ window.MEETS = [
       "Double Special Day (Meeting with you special + 50th Meet)",
       "Jahaj Building",
       "kotha bolte bolte rastay dekha",
-      "Al Kaderia Cafe (10th",
-      "40th meet o ekhane)",
+      "Al Kaderia Cafe (10th, 40th meet o ekhane)",
       "Dekha howa memories niye aager lekha (My day with মোবাশ্বিরা মালিহা অন্তরা)",
       "aager menu + Soup",
       "Apple",
