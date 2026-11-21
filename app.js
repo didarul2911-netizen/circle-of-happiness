@@ -148,13 +148,13 @@
     c.classList.add("gone");
     top++;
     if (top === cards.length) {
-      $("#stackHint").textContent = "";
       complete("s-stack");
-      setTimeout(() => cards.forEach((x, k) => {
-        x.classList.remove("gone"); x.classList.add("fan");
-        x.style.setProperty("--fan", (k - (cards.length - 1) / 2) * 5 + "deg");
-        x.style.zIndex = k;
-      }), 450);
+      // the pile comes back so it can be seen again
+      setTimeout(() => {
+        cards.forEach((x) => x.classList.remove("gone"));
+        top = 0;
+        $("#stackHint").textContent = "আবার দেখতে টোকা দিন";
+      }, 450);
     } else {
       $("#stackHint").textContent = `আরও ${bn(cards.length - top)}টা`;
     }
