@@ -36,100 +36,115 @@
 
 <main id="main" aria-hidden="true">
 
-  <!-- Hero -->
-  <header class="hero">
-    <div class="arch hero-arch"><img id="heroImg" alt="মোবাশ্বিরা"></div>
-    <h1 class="hero-title"><span>শুভ</span><span>জন্মদিন</span></h1>
-    <p class="hero-name" id="heroName"></p>
-    <p class="hero-line" id="heroLine"></p>
-  </header>
+  <nav class="parts" aria-label="দুই ভাগ">
+    <button type="button" class="part-tab" data-go="bday" aria-current="page">জন্মদিন</button>
+    <button type="button" class="part-tab" data-go="mem">আমাদের দিনগুলো</button>
+  </nav>
 
-  <!-- Sunflower -->
-  <section class="block" id="circle" aria-labelledby="circleTitle">
-    <h2 id="circleTitle" class="h2">My Circle of Happiness</h2>
-    <p class="lede" id="circleLede"></p>
-    <div class="flower-wrap">
-      <svg id="flower" viewBox="-210 -210 420 420" role="group" aria-label="সূর্যমুখী, প্রতিটা বীজ একটা দেখা"></svg>
-    </div>
-    <p class="legend"><span class="dot dot-best"></span> জীবনের সেরা দিনগুলো</p>
-  </section>
+  <!-- ================= Part 1: Birthday ================= -->
+  <div class="view" id="bday">
 
-  <!-- Best days -->
-  <section class="block" id="best" aria-labelledby="bestTitle">
-    <h2 id="bestTitle" class="h2">যে দিনগুলো ভোলার নয়</h2>
-    <div id="bestList"></div>
-  </section>
+    <header class="hero">
+      <div class="arch hero-arch"><img id="heroImg" alt="মোবাশ্বিরা"></div>
+      <h1 class="hero-title"><span>শুভ</span><span>জন্মদিন</span></h1>
+      <p class="hero-name" id="heroName"></p>
+      <p class="hero-line" id="heroLine"></p>
+    </header>
 
-  <!-- Receipt -->
-  <section class="block" id="bill" aria-labelledby="billTitle">
-    <h2 id="billTitle" class="h2">ছোট ছোট হিসাব</h2>
-    <div class="receipt" id="receipt"></div>
-  </section>
+    <section class="block" id="today" aria-labelledby="todayTitle">
+      <h2 id="todayTitle" class="h2">আজ যাঁর দিন</h2>
+      <div class="polaroids" id="polaroids"></div>
+    </section>
 
-  <!-- Saree roll -->
-  <section class="block" id="saree" aria-labelledby="sareeTitle">
-    <h2 id="sareeTitle" class="h2">সাদা শাড়ির দিন</h2>
-    <p class="lede">২৬ সেপ্টেম্বর। Wind Lounge, তারপর আফতাবনগরের কাশফুল।</p>
-    <div class="film" id="film"></div>
-  </section>
+    <section class="block" id="letter" aria-labelledby="letterTitle">
+      <h2 id="letterTitle" class="h2">আপনার জন্য একটা চিঠি</h2>
+      <article class="paper" id="paper"></article>
+    </section>
 
-  <!-- Lego video -->
-  <section class="block" id="lego" aria-labelledby="legoTitle">
-    <h2 id="legoTitle" class="h2">সূর্যমুখী, যেটা কখনো শুকাবে না</h2>
-    <p class="lede">২৯ সেপ্টেম্বর, Al Kaderia Cafe। বাক্স খোলার মুহূর্তটা।</p>
-    <div class="arch video-arch">
-      <video controls playsinline preload="none" poster="assets/video/lego-gift-poster.jpg" src="assets/video/lego-gift.mp4"></video>
-    </div>
-  </section>
+    <section class="block cake-block" id="cake" aria-labelledby="cakeTitle">
+      <h2 id="cakeTitle" class="h2">জন্মদিনের একটা ইচ্ছা</h2>
+      <p class="lede" id="cakeLede">চোখ বন্ধ করে একটা ইচ্ছা করুন, তারপর মোমবাতিতে ফুঁ দিন।</p>
+      <button class="cake" id="cakeBtn" type="button" aria-label="মোমবাতিতে ফুঁ দিন">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <g class="flame" id="flame">
+            <ellipse cx="100" cy="46" rx="7" ry="13" fill="#F2B01E"/>
+            <ellipse cx="100" cy="50" rx="3.5" ry="7" fill="#FFF3C4"/>
+          </g>
+          <rect x="96" y="58" width="8" height="30" rx="3" fill="#D9578C"/>
+          <rect x="40" y="88" width="120" height="40" rx="10" fill="#FFFDF8" stroke="#123F3B" stroke-width="3"/>
+          <path d="M40 104 q15 12 30 0 t30 0 t30 0 t30 0" fill="none" stroke="#D9578C" stroke-width="3"/>
+          <rect x="26" y="128" width="148" height="46" rx="10" fill="#FFFDF8" stroke="#123F3B" stroke-width="3"/>
+          <g fill="#F2B01E"><circle cx="56" cy="151" r="6"/><circle cx="100" cy="151" r="6"/><circle cx="144" cy="151" r="6"/></g>
+          <g fill="#5F8B4C"><circle cx="78" cy="151" r="3"/><circle cx="122" cy="151" r="3"/></g>
+        </svg>
+      </button>
+      <div class="after-wish" id="afterWish" hidden>
+        <p class="wish-line">শুভ জন্মদিন। ইচ্ছাটা পূরণ হোক।</p>
+        <a class="meet-btn" id="meetBtn" target="_blank" rel="noopener">আমাদের Meet-এ চলে আসুন</a>
+      </div>
+    </section>
 
-  <!-- Letters -->
-  <section class="block" id="letters" aria-labelledby="lettersTitle">
-    <h2 id="lettersTitle" class="h2">হাতে লেখা চিঠিগুলো</h2>
-    <p class="lede" id="lettersLede"></p>
-    <div class="desk" id="desk"></div>
-  </section>
+    <section class="block door" aria-labelledby="doorTitle">
+      <h2 id="doorTitle" class="door-title">এবার একটু পেছনে ফিরে দেখি</h2>
+      <p class="lede" id="doorLede"></p>
+      <button type="button" class="door-btn" data-go="mem">আমাদের দিনগুলো দেখুন</button>
+    </section>
+  </div>
 
-  <!-- Songs -->
-  <section class="block" id="songs" aria-labelledby="songsTitle">
-    <h2 id="songsTitle" class="h2">আপনার গানগুলো</h2>
-    <p class="lede">রিকশা খুঁজতে খুঁজতে, সিঁড়িতে উঠতে উঠতে, কিংবা এক earbuds-এ দুজন।</p>
-    <ul class="songs" id="songList"></ul>
-    <p class="movie">আর প্রিয় সিনেমা, অবশ্যই <em id="favMovie"></em>।</p>
-  </section>
+  <!-- ================= Part 2: Memories ================= -->
+  <div class="view" id="mem" hidden>
 
-  <!-- Letter -->
-  <section class="block" id="letter" aria-labelledby="letterTitle">
-    <h2 id="letterTitle" class="visually-hidden">জন্মদিনের চিঠি</h2>
-    <article class="paper" id="paper"></article>
-  </section>
+    <header class="mem-head">
+      <h1 class="mem-title">আমাদের দিনগুলো</h1>
+      <p class="lede" id="memLede"></p>
+    </header>
 
-  <!-- Cake -->
-  <section class="block cake-block" id="cake" aria-labelledby="cakeTitle">
-    <h2 id="cakeTitle" class="h2">একটা ইচ্ছা করুন</h2>
-    <p class="lede" id="cakeLede">চোখ বন্ধ করে একটা ইচ্ছা করুন, তারপর মোমবাতিতে ফুঁ দিন।</p>
-    <button class="cake" id="cakeBtn" type="button" aria-label="মোমবাতিতে ফুঁ দিন">
-      <svg viewBox="0 0 200 200" aria-hidden="true">
-        <g class="flame" id="flame">
-          <ellipse cx="100" cy="46" rx="7" ry="13" fill="#F2B01E"/>
-          <ellipse cx="100" cy="50" rx="3.5" ry="7" fill="#FFF3C4"/>
-        </g>
-        <rect x="96" y="58" width="8" height="30" rx="3" fill="#D9578C"/>
-        <rect x="40" y="88" width="120" height="40" rx="10" fill="#FFFDF8" stroke="#123F3B" stroke-width="3"/>
-        <path d="M40 104 q15 12 30 0 t30 0 t30 0 t30 0" fill="none" stroke="#D9578C" stroke-width="3"/>
-        <rect x="26" y="128" width="148" height="46" rx="10" fill="#FFFDF8" stroke="#123F3B" stroke-width="3"/>
-        <g fill="#F2B01E"><circle cx="56" cy="151" r="6"/><circle cx="100" cy="151" r="6"/><circle cx="144" cy="151" r="6"/></g>
-        <g fill="#5F8B4C"><circle cx="78" cy="151" r="3"/><circle cx="122" cy="151" r="3"/></g>
-      </svg>
-    </button>
-    <div class="after-wish" id="afterWish" hidden>
-      <p class="wish-line">ইচ্ছাটা পূরণ হোক।</p>
-      <a class="meet-btn" id="meetBtn" target="_blank" rel="noopener">আমাদের Meet-এ চলে আসুন</a>
-    </div>
-  </section>
+    <section class="block" id="circle" aria-labelledby="circleTitle">
+      <h2 id="circleTitle" class="h2">My Circle of Happiness</h2>
+      <p class="lede" id="circleLede"></p>
+      <div class="flower-wrap">
+        <svg id="flower" viewBox="-210 -210 420 420" role="group" aria-label="সূর্যমুখী, প্রতিটা বীজ একটা দেখা"></svg>
+      </div>
+      <p class="legend"><span class="dot dot-best"></span> যে দিনগুলো একেবারেই ভোলার মতো না</p>
+    </section>
 
-  <footer class="end">
-    <p>Life is so beautiful with you.</p>
-  </footer>
+    <section class="block" id="journey" aria-labelledby="journeyTitle">
+      <h2 id="journeyTitle" class="h2"></h2>
+      <ol class="vine" id="vine"></ol>
+    </section>
+
+    <section class="block" id="best" aria-labelledby="bestTitle">
+      <h2 id="bestTitle" class="h2">যে দিনগুলো ভোলার নয়</h2>
+      <p class="lede">প্রতিটা দেখাই বিশেষ। তবু কিছু দিন আছে, যেগুলো একেবারেই ভোলার মতো না।</p>
+      <div id="bestList"></div>
+    </section>
+
+    <section class="block" id="earring" aria-labelledby="earringTitle">
+      <h2 id="earringTitle" class="h2">নতুন কানের দুল</h2>
+      <p class="lede">২৯ সেপ্টেম্বর, Al Kaderia Cafe। কানের দুল পরার মুহূর্তটা। সেদিন সাথে ছিল Lego-র সূর্যমুখীও, যেটা কখনো শুকাবে না।</p>
+      <div class="arch video-arch">
+        <video controls playsinline preload="none" poster="assets/video/earring-poster.jpg" src="assets/video/lego-gift.mp4"></video>
+      </div>
+    </section>
+
+    <section class="block" id="letters" aria-labelledby="lettersTitle">
+      <h2 id="lettersTitle" class="h2">হাতে লেখা চিঠিগুলো</h2>
+      <p class="lede" id="lettersLede"></p>
+      <div class="desk" id="desk"></div>
+    </section>
+
+    <section class="block" id="songs" aria-labelledby="songsTitle">
+      <h2 id="songsTitle" class="h2">আপনার গানগুলো</h2>
+      <p class="lede">রিকশা খুঁজতে খুঁজতে, সিঁড়িতে উঠতে উঠতে, কিংবা এক earbuds-এ দুজন।</p>
+      <ul class="songs" id="songList"></ul>
+      <p class="movie">আর প্রিয় সিনেমা, অবশ্যই <em id="favMovie"></em>।</p>
+    </section>
+
+    <footer class="end">
+      <p>Life is so beautiful with you.</p>
+      <button type="button" class="door-btn ghost" data-go="bday">জন্মদিনে ফিরে যান</button>
+    </footer>
+  </div>
 </main>
 
 <!-- Meet sheet -->

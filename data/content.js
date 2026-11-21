@@ -20,16 +20,50 @@ window.CONTENT = {
   ],
   signature: "আপনার শুভাকাঙ্ক্ষী",
 
-  // যে দিনগুলো জীবনের সেরা — ক্রম অনুযায়ী
-  bestDays: [
-    { meet: 1,  title: "লাল শাড়ি, গাড়িতে অপেক্ষা", photos: ["l-0416-poem", "l-0416-tissue"] },
-    { meet: 15, title: "এমন একটা দিন… এত খুশির দিন", photos: ["m15-indulge", "m15-mirror", "m15-pensive", "m15-churi", "m15-alley"] },
-    { meet: 22, title: "একশোতম দিন, আর ফুল নিতে ফিরে আসা", photos: ["m21-ful"] },
-    { meet: 38, title: "সাদা শাড়ি, Wind Lounge আর কাশফুল", photos: ["m38-swing", "m38-door", "m38-kash1", "m38-city", "m38-kash2", "m38-deck", "m38-mirror", "m38-garden"] },
-    { meet: 47, title: "মেলার শেষ দিন, অনেকদিনের শখের সূর্যমুখী", photos: ["m47-sunflower", "m47-balloon", "m47-hiding", "m47-cupflower"] }
+  // জন্মদিনের অংশের পোলারয়েড ছবি
+  birthdayPhotos: [
+    { img: "m24-smile", cap: "সুচিস্মিতা" },
+    { img: "blue-jhumka", cap: "নীল ঝুমকা" },
+    { img: "snap-pink", cap: "Orange person" },
+    { img: "glasses-chin", cap: "ভাবুক" },
+    { img: "m40-smile", cap: "এই হাসিটা" },
+    { img: "snap-black-floral", cap: "My Favourite Notification" }
   ],
 
-  // সাদা শাড়ির দিনের পুরো ফিল্ম-রোল
+  // মাসে মাসে আমাদের গল্প। নতুন মাস হলে নিচে যোগ করো।
+  journey: [
+    { month: "2026-03", text: "পনেরোই মার্চ, পরিচয়। তখনো জানা ছিল না একটা নাম একদিন সবচেয়ে প্রিয় notification হয়ে যাবে।" },
+    { month: "2026-04", text: "বৈশাখী মেলা, Bailey Road, লাল শাড়ি। গাড়িতে বসে অপেক্ষা, তারপর প্রথম দেখা। কয়েকদিন পরেই লাজুক হাসি আর লুচি।", photo: "m03-lajuk" },
+    { month: "2026-05", text: "বৃষ্টির মধ্যে গাড়িতে এক earbuds-এ গান, এক ছাতার নিচে দুজন, প্রথম হাত মেলানো। ঈদের আগে রোজ অফিসের পরে দেখা।", photo: "m15-alley" },
+    { month: "2026-06", text: "একশোতম দিন। ফুল নিতে ফিরে আসা, Mohanogor-এ অনেকক্ষণ হাঁটা। আকাশে অর্ধেক চাঁদ, আর অর্ধেক চাঁদ পাশে।", photo: "m24-window" },
+    { month: "2026-07", text: "বৃষ্টি আর রিকশা, প্রথমবার শুধু একটা চিঠি হাতে। তারপর দূরে থাকা, আবার ফিরে দেখা, off-white শাড়িতে।", photo: "m29-pearlchuri" },
+    { month: "2026-08", text: "ছোট্ট একটা ছাতা, ফুটপাত থেকে মেরুন চুড়ি, বাসার নিচে অপেক্ষা।", photo: "m31-eye" },
+    { month: "2026-09", text: "সাদা শাড়ি আর কাশফুলের দিন। তারপর Lego-র সূর্যমুখী, যেটা কখনো শুকাবে না।", photo: "m38-kash1" },
+    { month: "2026-10", text: "শহীদ মিনারের মেলা, অনেকদিনের শখের সূর্যমুখী, আর কারেন্ট চলে যাওয়া এক সন্ধ্যায় অন্ধকারে বসে গল্প।", photo: "m47-sunflower" },
+    { month: "2026-11", text: "অনেকদিনের অপেক্ষার পর আবার দেখা। হাত ধরে হাঁটা, আর Al Kaderia-তে ফিরে যাওয়া, যেখানে কত গল্প জমে আছে।", photo: "m49-letter" }
+  ],
+
+  // যে দিনগুলো একেবারেই ভোলার মতো না। meets.js-এ "best": true দেওয়া দিনগুলোই এখানে আসে।
+  // এখানে শুধু শিরোনাম আর এক লাইন লেখা। photos না দিলে meets.js-এর ছবি দেখাবে।
+  highlights: {
+    1:  { title: "লাল শাড়ি, গাড়িতে অপেক্ষা", line: "বৈশাখী মেলা, Bailey Road। প্রথম দেখা, আর সেদিনের ফুল আর চিঠি।" },
+    6:  { title: "Cold coffee হাতে অপেক্ষা", line: "Khilgaon-এ কফি নিয়ে দাঁড়িয়ে থাকা, আর দেওয়া T-shirt-টা পরে আপনার আসা।" },
+    9:  { title: "বৃষ্টি, গাড়ি, এক earbuds-এ গান", line: "হাতে নাম লেখা, Miniso-র hair clip, আর বাইরে বৃষ্টি। জীবনের একটা perfect moment।" },
+    13: { title: "রিকশা থেকে লাফ দিয়ে নামা", line: "Danish chicken, লাচ্ছি, ভালোবাসার আকারের কানের দুল, আর বাসার সামনে তিন মিনিট।" },
+    14: { title: "এক ছাতার নিচে দুজন", line: "মেঘলা আকাশ, বৃষ্টি, Military Museum থেকে বিজয় সরণি পর্যন্ত হাঁটা। প্রথম হাত মেলানো।" },
+    15: { title: "এমন একটা দিন… এত খুশির দিন" },
+    16: { title: "জীবনের অন্যতম সেরা দিন" },
+    20: { title: "গাড়িতে গান, আর নীল চুড়ি", line: "বাসার সামনে থেকে তুলে নেওয়া, Bailey Road, Khilgaon-এর cold coffee, তারপর আবার বাসার সামনে।" },
+    22: { title: "একশোতম দিন, আর ফুল নিতে ফিরে আসা", line: "পেছন ফিরে তাকানো, তারপর ফুল নিতে ফিরে আসা। জীবনের সেরা মুহূর্তগুলোর একটা।", photos: ["m21-ful"] },
+    24: { title: "Terracotta Tales, আর পাশে পূর্ণিমা", line: "সুন্দর জামাটা, চিঠি পড়া, Mohanogor Project-এ এক ঘণ্টা হাঁটা। পাশে ছিল পূর্ণ চাঁদ।" },
+    38: { title: "সাদা শাড়ি, Wind Lounge আর কাশফুল", roll: true },
+    44: { title: "অন্ধকারে দেখা", line: "কারেন্ট নেই, তবু দেখা। পাশাপাশি বসে Facebook scroll করা, আর চুলের কাঁটা।" },
+    47: { title: "মেলার শেষ দিন, অনেকদিনের শখের সূর্যমুখী", photos: ["m47-sunflower", "m47-balloon", "m47-hiding", "m47-cupflower", "m47-crimson"] },
+    48: { title: "অপেক্ষার পর দেখা", line: "সবচেয়ে লম্বা অপেক্ষার পর আবার দেখা। IBA থেকে Bashundhara City, sweet corn আর আইসক্রিম।" },
+    50: { title: "পঞ্চাশতম দেখা, আবার Al Kaderia-তে", line: "রাস্তায় কথা বলতে বলতে দেখা, আর সব দেখার গল্প নিয়ে লেখা।" }
+  },
+
+  // সাদা শাড়ির দিনের পুরো ফিল্ম-রোল (২৬ সেপ্টেম্বরের দিনের সাথে দেখায়)
   sareeRoll: ["m38-swing", "m38-door", "m38-door2", "m38-side", "m38-deck", "m38-deck2", "m38-city", "m38-lounge", "m38-garden", "m38-mirror", "m38-kash3", "m38-kash1", "m38-kash2"],
 
   // হাতে লেখা চিঠিগুলো
@@ -85,20 +119,5 @@ window.CONTENT = {
     "Teri nazar",
     "Tera hero idhar hai"
   ],
-  favMovie: "Jab We Met",
-
-  // বিলের হিসাব — meets.js এর লেখা থেকে নিজে থেকে গোনা হয়
-  receipt: [
-    { label: "KitKat", match: "kitkat" },
-    { label: "Cold coffee", match: "cold coffee" },
-    { label: "চুড়ি", match: "চুড়ি|churi" },
-    { label: "Pizzagram", match: "pizzagram" },
-    { label: "Al Kaderia Cafe", match: "al ?kaderia" },
-    { label: "পাস্তা", match: "pasta|alfredo|fettuccine" },
-    { label: "ফুল", match: "flower|rose|sunflower|\\bful\\b" },
-    { label: "রিকশা", match: "rickshaw" },
-    { label: "হাত ধরে হাঁটা", match: "haat dhor|haat dhore" },
-    { label: "দেরি করে আসা", match: "\\blate\\b" },
-    { label: "বাসার সামনে drop", match: "drop" }
-  ]
+  favMovie: "Jab We Met"
 };

@@ -3,6 +3,7 @@
   const MEETS = (window.MEETS || []).slice().sort((a, b) => a.date.localeCompare(b.date) || a.n - b.n);
   const $ = (s) => document.querySelector(s);
   const img = (n) => `assets/img/${n}.jpg`;
+  const lbGroups = {};
 
   /* ---------- Bangla helpers ---------- */
   const BN = "০১২৩৪৫৬৭৮৯";
@@ -26,7 +27,6 @@
   const preview = params.has("preview");
   const isUnlocked = () => preview || Date.now() >= unlockAt;
   const dayNo = daysBetween(C.porichoy, C.birthday);
-  const sinceFirst = daysBetween(C.firstMeet, C.birthday);
 
   /* ---------- Lock screen ---------- */
   const lock = $("#lock");
@@ -77,9 +77,32 @@
   $("#heroName").textContent = C.name;
   $("#heroLine").textContent = `আজ ${fmtDate(C.birthday, false)}, পরিচয়ের ${ord(dayNo)} দিন।`;
 
+  /* ---------- Polaroids ---------- */
+  const BP = C.birthdayPhotos || [];
+  lbGroups.today = BP.map((p) => p.img);
+  $("#polaroids").innerHTML = BP.map((p, k) => {
+    const r = [-4, 3, -2, 4, -3, 2][k % 6];
+    return `<button type="button" class="pola" data-lb="today" data-k="${k}" style="--r:${r}deg" aria-label="ছবি বড় করে দেখুন"><img loading="lazy" src="${img(p.img)}" alt=""><span>${esc(p.cap)}</span></button>`;
+  }).join("");
+  $("#doorLede").textContent = `${fmtDate(C.porichoy, false)} থেকে আজ পর্যন্ত, একসাথে কাটানো দিনগুলো।`;
+  $("#memLede").textContent = `${fmtDate(C.porichoy, false)}, পরিচয়। ${fmtDate(C.firstMeet, false)}, প্রথম দেখা। তারপর থেকে যা কিছু, সব এখানে।`;
+
+  /* ---------- Two parts ---------- */
+  function goPart(id) {
+    ["bday", "mem"].forEach((v) => { $("#" + v).hidden = v !== id; });
+    document.querySelectorAll(".part-tab").forEach((t) => {
+      if (t.dataset.go === id) t.setAttribute("aria-current", "page"); else t.removeAttribute("aria-current");
+    });
+    document.querySelectorAll("video").forEach((v) => { if (!v.closest("#" + id)) v.pause(); });
+    window.scrollTo(0, 0);
+    if (history.replaceState) history.replaceState(null, "", location.search + (id === "mem" ? "#memories" : ""));
+  }
+  document.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => goPart(b.dataset.go)));
+  if (location.hash === "#memories") goPart("mem");
+
   /* ---------- Sunflower ---------- */
   $("#circleLede").textContent =
-    `প্রতিটা বীজ একটা দেখা। ${fmtDate(C.firstMeet, false)} থেকে এখন পর্যন্ত ${bn(MEETS.length)}টা দেখা, ${bn(sinceFirst)} দিনে। যেকোনো বীজ ছুঁয়ে দেখুন।`;
+    `প্রতিটা বীজ একটা দেখা, ${fmtDate(C.firstMeet, false)} থেকে আজ পর্যন্ত। গোলাপি বীজগুলো সেই দিন, যেগুলো একেবারেই ভোলার মতো না। যেকোনো বীজ ছুঁয়ে দেখুন।`;
   buildFlower($("#flower"));
 
   function buildFlower(svg) {
@@ -174,7 +197,8 @@
     const tags = m.items && m.items.length ? `<ul class="tags">${m.items.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : "";
     const note = m.note ? `<p class="day-note">${esc(m.note)}</p>` : "";
     const vid = m.video ? `<video controls playsinline preload="none" poster="assets/video/${m.video}-poster.jpg" src="assets/video/${m.video}.mp4"></video>` : "";
-    $("#sheetBody").innerHTML = tags + note + vid + photoStrip(m.photos, "meet");
+    const hl = m.best ? `<p class="sheet-hl">${esc((HL[m.n] && HL[m.n].title) || "ভোলার মতো না")}</p>` : "";
+    $("#sheetBody").innerHTML = hl + tags + note + vid + photoStrip(m.photos, "meet");
     lbGroups.meet = m.photos || [];
     $("#sheetPrev").disabled = i === 0;
     $("#sheetNext").disabled = i === MEETS.length - 1;
@@ -188,47 +212,45 @@
   sheet.addEventListener("click", (e) => { if (e.target === sheet) sheet.close(); });
   sheet.addEventListener("close", () => sheet.querySelectorAll("video").forEach((v) => v.pause()));
 
-  /* ---------- Best days ---------- */
-  const lbGroups = {};
-  $("#bestList").innerHTML = C.bestDays.map((b, k) => {
-    const m = MEETS.find((x) => x.n === b.meet) || {};
-    lbGroups["best" + k] = b.photos;
-    const note = m.note ? `<p class="day-note">${esc(m.note)}</p>` : "";
-    const items = !m.note && m.items ? `<p class="day-items">${m.items.map(esc).join(", ")}</p>` : "";
-    return `<article class="day">
-      <p class="day-date">${m.date ? fmtDate(m.date) + ", " + ord(m.n) + " দেখা" : ""}</p>
-      <h3 class="day-title">${esc(b.title)}</h3>
-      ${note}${items}
-      ${photoStrip(b.photos, "best" + k)}
+  /* ---------- Unforgettable days (meets with best: true) ---------- */
+  const HL = C.highlights || {};
+  $("#bestList").innerHTML = MEETS.filter((m) => m.best).map((m) => {
+    const h = HL[m.n] || {};
+    const key = "best" + m.n;
+    const title = h.title || `${ord(m.n)} দেখা`;
+    const text = m.note ? `<p class="day-note">${esc(m.note)}</p>` : (h.line ? `<p class="day-note">${esc(h.line)}</p>` : "");
+    let media = "";
+    if (h.roll) {
+      lbGroups[key] = C.sareeRoll;
+      media = `<div class="film">` +
+        (m.video ? `<video muted loop playsinline autoplay preload="metadata" poster="assets/video/${m.video}-poster.jpg" src="assets/video/${m.video}.mp4" aria-label="ভিডিও"></video>` : "") +
+        C.sareeRoll.map((p, k) => `<button type="button" data-lb="${key}" data-k="${k}" aria-label="ছবি বড় করে দেখুন"><img loading="lazy" src="${img(p)}" alt=""></button>`).join("") +
+        `</div>`;
+    } else {
+      const photos = h.photos || m.photos || [];
+      lbGroups[key] = photos;
+      media = photoStrip(photos, key);
+    }
+    const big = m.note || h.roll ? " day-big" : "";
+    return `<article class="day${big}">
+      <p class="day-date">${fmtDate(m.date)}</p>
+      <h3 class="day-title">${esc(title)}</h3>
+      ${text}${media}
     </article>`;
   }).join("");
 
-  /* ---------- Receipt ---------- */
-  (function receipt() {
-    const text = MEETS.map((m) => (m.items || []).join(" , ") + " , " + (m.note || "")).join(" | ");
-    const rows = C.receipt.map((r) => {
-      const n = MEETS.reduce((s, m) => s + ((m.items || []).filter((it) => new RegExp(r.match, "i").test(it + " ")).length), 0);
-      return { label: r.label, n };
-    }).filter((r) => r.n > 0);
-    const first = MEETS[0], last = MEETS[MEETS.length - 1];
-    $("#receipt").innerHTML = `
-      <div class="r-head">
-        <p class="r-shop">Circle of Happiness</p>
-        <p class="r-sub">${fmtDate(first.date, false)} থেকে ${fmtDate(last.date, false)}</p>
-      </div>
-      <div class="r-row"><span class="lbl">দেখা</span><span class="lead"></span><span class="qty">× ${bn(MEETS.length)}</span></div>
-      ${rows.map((r) => `<div class="r-row"><span class="lbl">${esc(r.label)}</span><span class="lead"></span><span class="qty">× ${bn(r.n)}</span></div>`).join("")}
-      <hr class="r-rule">
-      <div class="r-row r-total"><span class="lbl">মোট</span><span class="lead"></span><span class="qty">অমূল্য</span></div>
-      <p class="r-foot">পরিশোধিত: এক জীবনের হাসি দিয়ে</p>`;
-    void text;
-  })();
-
-  /* ---------- Saree film roll ---------- */
-  lbGroups.saree = C.sareeRoll;
-  $("#film").innerHTML =
-    `<video muted loop playsinline autoplay preload="metadata" poster="assets/video/saree-swing-poster.jpg" src="assets/video/saree-swing.mp4" aria-label="সাদা শাড়িতে দোলনায়"></video>` +
-    C.sareeRoll.map((p, k) => `<button type="button" data-lb="saree" data-k="${k}" aria-label="ছবি বড় করে দেখুন"><img loading="lazy" src="${img(p)}" alt=""></button>`).join("");
+  /* ---------- Month by month ---------- */
+  const J = C.journey || [];
+  const monthName = (ym) => MONTHS[Number(ym.split("-")[1]) - 1];
+  if (J.length) {
+    $("#journeyTitle").textContent = `${monthName(J[0].month)} থেকে ${monthName(J[J.length - 1].month)}`;
+    lbGroups.vine = J.filter((j) => j.photo).map((j) => j.photo);
+    let k = 0;
+    $("#vine").innerHTML = J.map((j) => {
+      const ph = j.photo ? `<button type="button" class="vine-ph" data-lb="vine" data-k="${k++}" aria-label="ছবি বড় করে দেখুন"><img loading="lazy" src="${img(j.photo)}" alt=""></button>` : "";
+      return `<li><p class="vine-month">${monthName(j.month)}</p><p class="vine-text">${esc(j.text)}</p>${ph}</li>`;
+    }).join("");
+  }
 
   /* ---------- Letters ---------- */
   lbGroups.letters = C.letters.map((l) => l.img);

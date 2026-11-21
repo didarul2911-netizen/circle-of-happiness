@@ -1,5 +1,5 @@
 // প্রতিটা দেখা এখানে। নতুন দেখা হলে নিচে একটা নতুন { ... } যোগ করলেই সব হিসাব নিজে থেকে আপডেট হবে।
-// photos: assets/img ফোল্ডারের ছবির নাম (.jpg ছাড়া)। best: true দিলে সূর্যমুখীতে গোলাপি দেখাবে।
+// photos: assets/img ফোল্ডারের ছবির নাম (.jpg ছাড়া)। best: true দিলে সূর্যমুখীতে গোলাপি দেখাবে, আর "যে দিনগুলো ভোলার নয়"-তে আসবে।
 window.MEETS = [
   {
     "n": 1,
@@ -99,7 +99,7 @@ window.MEETS = [
     ],
     "note": "",
     "photos": [],
-    "best": false
+    "best": true
   },
   {
     "n": 7,
@@ -148,7 +148,7 @@ window.MEETS = [
       "m09-hairclip",
       "m09-collage"
     ],
-    "best": false
+    "best": true
   },
   {
     "n": 10,
@@ -216,7 +216,7 @@ window.MEETS = [
       "m13-danish",
       "m13-icecream"
     ],
-    "best": false
+    "best": true
   },
   {
     "n": 14,
@@ -245,7 +245,7 @@ window.MEETS = [
     "photos": [
       "m14-alfredo"
     ],
-    "best": false
+    "best": true
   },
   {
     "n": 15,
@@ -377,7 +377,7 @@ window.MEETS = [
       "m20-bluechuri",
       "m20-haatenaam"
     ],
-    "best": false
+    "best": true
   },
   {
     "n": 21,
@@ -461,7 +461,7 @@ window.MEETS = [
       "m24-window",
       "m24-letter"
     ],
-    "best": false
+    "best": true
   },
   {
     "n": 25,
@@ -766,7 +766,7 @@ window.MEETS = [
       "m44-bun",
       "m44-mural"
     ],
-    "best": false
+    "best": true
   },
   {
     "n": 45,
@@ -839,7 +839,7 @@ window.MEETS = [
     ],
     "note": "",
     "photos": [],
-    "best": false
+    "best": true
   },
   {
     "n": 49,
