@@ -56,7 +56,35 @@
       $("#lockHint").textContent = `আর ${bn(Math.floor(left / 86400000))} দিন ${two(Math.floor(left / 3600000) % 24)}:${two(Math.floor(left / 60000) % 60)}:${two(Math.floor(left / 1000) % 60)}`;
       notif.disabled = true;
     }
+    updatePoster(d);
   }
+
+  /* ---------- Today's countdown poster (changes at 00:00 Dhaka) ---------- */
+  // assets/posters/dN.jpg = the poster for the day when N days are left (14 … 1).
+  const POSTER_MAX = 14;
+  const posterBtn = $("#posterBtn"), posterView = $("#posterView"), posterImg = $("#posterImg");
+  let posterDay = null;
+  function updatePoster(dhakaNow) {
+    const today = Date.UTC(dhakaNow.getUTCFullYear(), dhakaNow.getUTCMonth(), dhakaNow.getUTCDate());
+    let left = Math.round((Date.UTC(by, bm - 1, bd) - today) / 86400000);
+    if (params.has("posterDay")) left = Number(params.get("posterDay")); // for checking a given day
+    const show = !isUnlocked() && left >= 1 && left <= POSTER_MAX;
+    posterBtn.hidden = !show;
+    if (!show) { if (!posterView.hidden) closePoster(); posterDay = null; return; }
+    if (left === posterDay) return;
+    posterDay = left;
+    $("#posterBtnDay").textContent = bn(dhakaNow.getUTCDate());
+    $("#posterBtnDate").textContent = MONTHS[dhakaNow.getUTCMonth()];
+    $("#posterBtnTitle").textContent = left === 1 ? "কাল জন্মদিন!" : "আজকের পোস্টারটা এসে গেছে";
+    posterImg.src = `assets/posters/d${left}.jpg`;
+    posterImg.alt = `আর ${bn(left)} দিনের পোস্টার`;
+  }
+  function closePoster() { posterView.hidden = true; posterBtn.focus({ preventScroll: true }); }
+  posterBtn.addEventListener("click", () => { posterView.hidden = false; $("#posterClose").focus(); });
+  $("#posterClose").addEventListener("click", closePoster);
+  posterView.addEventListener("click", (e) => { if (e.target === posterView) closePoster(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !posterView.hidden) closePoster(); });
+
   tick(); setInterval(tick, 1000);
 
   function openGift(instant) {

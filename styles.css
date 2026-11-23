@@ -73,6 +73,25 @@ button { font: inherit; color: inherit; }
 .notif-text { font-size: .95rem; line-height: 1.5; color: var(--ink-soft); }
 .lock-hint { margin: 0; font-size: .9rem; opacity: .8; min-height: 1.5em; text-align: center; }
 @keyframes notifIn { from { opacity: 0; transform: translateY(-18px) scale(.97); } }
+.notif-poster { margin-top: 0; animation-delay: 1.3s; }
+.notif-poster .notif-body { flex: 1; }
+.notif-icon-cal { background: var(--churi); color: #fff; font-weight: 700; font-size: 1.15rem; line-height: 1; }
+.poster-view {
+  position: fixed; inset: 0; z-index: 80;
+  display: grid; place-items: center;
+  padding: max(1rem, env(safe-area-inset-top)) 1rem max(1rem, env(safe-area-inset-bottom));
+  background: rgba(10,22,26,.97);
+  animation: pvIn .35s ease-out both;
+}
+.poster-view[hidden] { display: none; }
+.poster-view img { max-height: 100%; max-width: 100%; width: auto; height: auto; border-radius: 1rem; box-shadow: 0 20px 60px rgba(0,0,0,.5); object-fit: contain; }
+.pv-close {
+  position: absolute; top: max(.8rem, env(safe-area-inset-top)); right: .8rem;
+  width: 2.8rem; height: 2.8rem; border-radius: 50%; border: 0;
+  background: rgba(255,253,248,.9); color: var(--ink); font-size: 1.2rem; cursor: pointer;
+}
+@keyframes pvIn { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .poster-view { animation: none; } }
 body.is-open #lock { transform: translateY(-100%); opacity: .4; pointer-events: none; }
 
 /* ---------- Layout ---------- */
