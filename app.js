@@ -76,7 +76,7 @@
     $("#posterBtnDay").textContent = bn(dhakaNow.getUTCDate());
     $("#posterBtnDate").textContent = MONTHS[dhakaNow.getUTCMonth()];
     $("#posterBtnTitle").textContent = left === 1 ? "কাল জন্মদিন!" : "আজকের পোস্টারটা এসে গেছে";
-    posterImg.src = `assets/posters/d${left}.jpg`;
+    posterImg.src = `assets/posters/d${left}.jpg?v=20261123b`;
     posterImg.alt = `আর ${bn(left)} দিনের পোস্টার`;
   }
   function closePoster() { posterView.hidden = true; posterBtn.focus({ preventScroll: true }); }
