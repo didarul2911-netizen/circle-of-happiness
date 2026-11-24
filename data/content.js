@@ -22,16 +22,19 @@ window.CONTENT = {
 
   // ----- জন্মদিন অংশ -----
   // ছোটবেলার ছবি (বাবার সাথে)
-  childhood: { img: "childhood", cap: "বাবার সাথে ছোট্ট মোবাশ্বিরা" },
+  childhood: { img: "childhood", cap: "" },
 
-  // চিঠির আগে: টোকা দিলে একটা একটা করে সরে যাবে
+  // চিঠির আগে: টোকা দিলে একটা একটা করে সরে যাবে (cap খালি রাখলে কোনো লেখা দেখাবে না)
   stack: [
-    { img: "blue-jhumka", cap: "নীল ঝুমকা" },
-    { img: "m15-pensive", cap: "সুচিস্মিতা" },
-    { img: "snap-pink", cap: "Orange person" },
-    { img: "glasses-chin", cap: "My Favourite Notification" },
-    { img: "m40-smile", cap: "এই হাসিটা" },
-    { img: "m38-swing", cap: "সাদা শাড়ি" }
+    { img: "b-kashful-smile", cap: "" },
+    { img: "blue-jhumka", cap: "" },
+    { img: "b-pink-garden", cap: "" },
+    { img: "b-snap-pink", cap: "" },
+    { img: "b-deck-smile", cap: "" },
+    { img: "glasses-chin", cap: "" },
+    { img: "b-door", cap: "" },
+    { img: "b-pensive", cap: "" },
+    { img: "m38-swing", cap: "" }
   ],
 
   // চিঠির পরে: ছড়ানো ছবি, আঙুল দিয়ে সরানো যায়

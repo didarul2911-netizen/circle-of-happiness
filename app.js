@@ -77,7 +77,7 @@
     if (left === posterDay) return;
     posterDay = left;
     $("#posterBtnDay").textContent = bn(dhakaNow.getUTCDate());
-    posterImg.src = `assets/posters/d${left}.jpg?v=20261125b`;
+    posterImg.src = `assets/posters/d${left}.jpg?v=20261125c`;
     posterImg.alt = `আর ${bn(left)} দিনের পোস্টার`;
   }
   function closePoster() { posterView.hidden = true; posterBtn.focus({ preventScroll: true }); }
@@ -89,7 +89,7 @@
   /* ---------- Appointment letter (until the gift opens) ---------- */
   function openLetter() {
     const li = $("#letterImg");
-    if (!li.getAttribute("src")) li.src = "assets/letters/appointment.jpg?v=20261125b";
+    if (!li.getAttribute("src")) li.src = "assets/letters/appointment.jpg?v=20261125c";
     letterView.hidden = false; letterView.scrollTop = 0; $("#letterClose").focus();
   }
   function closeLetter() { letterView.hidden = true; letterBtn.focus({ preventScroll: true }); }
@@ -150,6 +150,35 @@
   $("#pgNext").addEventListener("click", () => show(si + 1));
   $("#pgPrev").addEventListener("click", () => show(si - 1));
 
+  /* Happy Birthday tune, played as a soft music box (the melody is public domain) */
+  function playHappyBirthday() {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    const ac = new AC();
+    const beat = 0.44;
+    const N = { G4: 392, A4: 440, B4: 493.88, C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46, G5: 783.99 };
+    const tune = [["G4",.75],["G4",.25],["A4",1],["G4",1],["C5",1],["B4",2],
+                  ["G4",.75],["G4",.25],["A4",1],["G4",1],["D5",1],["C5",2],
+                  ["G4",.75],["G4",.25],["G5",1],["E5",1],["C5",1],["B4",1],["A4",2],
+                  ["F5",.75],["F5",.25],["E5",1],["C5",1],["D5",1],["C5",3]];
+    const master = ac.createGain(); master.gain.value = 0.22; master.connect(ac.destination);
+    let t = ac.currentTime + 0.25;
+    tune.forEach(([n, d]) => {
+      const len = d * beat;
+      [[1, "sine", 1], [2, "triangle", 0.25], [4, "sine", 0.08]].forEach(([mul, type, amp]) => {
+        const o = ac.createOscillator(), g = ac.createGain();
+        o.type = type; o.frequency.value = N[n] * mul;
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(amp, t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0008, t + Math.max(0.5, len * 1.6));
+        o.connect(g); g.connect(master);
+        o.start(t); o.stop(t + Math.max(0.55, len * 1.7));
+      });
+      t += len;
+    });
+    setTimeout(() => ac.close && ac.close(), (t - ac.currentTime + 2) * 1000);
+  }
+
   /* 1. Gift */
   $("#gift").addEventListener("click", function () {
     if (this.classList.contains("open")) return;
@@ -157,7 +186,9 @@
     $("#giftHint").textContent = "";
     burst(this);
     complete("s-gift");
-    setTimeout(() => { if (scenes[si].id === "s-gift") show(1); }, calm ? 300 : 1700);
+    const hb = $("#hbText"); hb.textContent = "Happy Birthday to you"; hb.classList.add("show");
+    playHappyBirthday();
+    setTimeout(() => { if (scenes[si].id === "s-gift") show(1); }, calm ? 1500 : 3400);
   });
 
   /* 2. Wish */
@@ -178,7 +209,7 @@
   const stackEl = $("#stack");
   stackEl.innerHTML = stackList.map((p, k) => {
     const r = [-3, 4, -5, 2, -2, 5, -4][k % 7];
-    return `<figure class="pola stack-card${k === 0 ? " child" : ""}" style="--r:${r}deg; z-index:${stackList.length - k}"><span class="tape"></span><img src="${img(p.img)}" alt="" loading="${k < 2 ? "eager" : "lazy"}"><figcaption>${esc(p.cap)}</figcaption></figure>`;
+    return `<figure class="pola stack-card${k === 0 ? " child" : ""}" style="--r:${r}deg; z-index:${stackList.length - k}"><span class="tape"></span><img src="${img(p.img)}" alt="" loading="${k < 2 ? "eager" : "lazy"}">${p.cap ? `<figcaption>${esc(p.cap)}</figcaption>` : `<span class="pola-blank"></span>`}</figure>`;
   }).join("");
   let top = 0;
   const cards = $$(".stack-card");
