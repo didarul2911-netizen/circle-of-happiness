@@ -91,6 +91,12 @@ button { font: inherit; color: inherit; }
   background: rgba(255,253,248,.9); color: var(--ink); font-size: 1.2rem; cursor: pointer;
 }
 @keyframes pvIn { from { opacity: 0; } }
+.notif-letter { animation-delay: 1.15s; }
+.notif-icon-mail { background: var(--churi); }
+.notif-icon-mail svg { width: 2rem; height: 2rem; }
+.letter-view { place-items: start center; overflow-y: auto; overscroll-behavior: contain; padding-top: max(4rem, env(safe-area-inset-top)); }
+.letter-view img { max-height: none; width: min(100%, 760px); height: auto; border-radius: .6rem; }
+.letter-view .pv-close { position: fixed; }
 @media (prefers-reduced-motion: reduce) { .poster-view { animation: none; } }
 body.is-open #lock { transform: translateY(-100%); opacity: .4; pointer-events: none; }
 

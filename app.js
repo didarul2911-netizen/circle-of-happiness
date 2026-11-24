@@ -57,11 +57,14 @@
       notif.disabled = true;
     }
     updatePoster(d);
+    letterBtn.hidden = isUnlocked();
+    if (isUnlocked() && !letterView.hidden) closeLetter();
   }
 
   /* ---------- Today's countdown poster (changes at 00:00 Dhaka) ---------- */
   // assets/posters/dN.jpg = the poster for the day when N days are left (14 … 1).
   const POSTER_MAX = 14;
+  const letterBtn = $("#letterBtn"), letterView = $("#letterView");
   const posterBtn = $("#posterBtn"), posterView = $("#posterView"), posterImg = $("#posterImg");
   let posterDay = null;
   function updatePoster(dhakaNow) {
@@ -76,7 +79,7 @@
     $("#posterBtnDay").textContent = bn(dhakaNow.getUTCDate());
     $("#posterBtnDate").textContent = MONTHS[dhakaNow.getUTCMonth()];
     $("#posterBtnTitle").textContent = left === 1 ? "কাল জন্মদিন!" : "আজকের পোস্টারটা এসে গেছে";
-    posterImg.src = `assets/posters/d${left}.jpg?v=20261123b`;
+    posterImg.src = `assets/posters/d${left}.jpg?v=20261125a`;
     posterImg.alt = `আর ${bn(left)} দিনের পোস্টার`;
   }
   function closePoster() { posterView.hidden = true; posterBtn.focus({ preventScroll: true }); }
@@ -84,6 +87,18 @@
   $("#posterClose").addEventListener("click", closePoster);
   posterView.addEventListener("click", (e) => { if (e.target === posterView) closePoster(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !posterView.hidden) closePoster(); });
+
+  /* ---------- Appointment letter (until the gift opens) ---------- */
+  function openLetter() {
+    const li = $("#letterImg");
+    if (!li.getAttribute("src")) li.src = "assets/letters/appointment.jpg?v=20261125a";
+    letterView.hidden = false; letterView.scrollTop = 0; $("#letterClose").focus();
+  }
+  function closeLetter() { letterView.hidden = true; letterBtn.focus({ preventScroll: true }); }
+  letterBtn.addEventListener("click", openLetter);
+  $("#letterClose").addEventListener("click", closeLetter);
+  letterView.addEventListener("click", (e) => { if (e.target === letterView) closeLetter(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !letterView.hidden) closeLetter(); });
 
   tick(); setInterval(tick, 1000);
 

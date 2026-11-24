@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Galada&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E🌻%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=20261123b">
+<link rel="stylesheet" href="styles.css?v=20261125a">
 </head>
 <body class="is-locked">
 
@@ -31,6 +31,16 @@
       <span class="notif-text" id="notifText"></span>
     </span>
   </button>
+  <button class="notif notif-poster notif-letter" id="letterBtn" type="button" hidden>
+    <span class="notif-icon notif-icon-mail" aria-hidden="true">
+      <svg viewBox="0 0 40 40"><rect x="6" y="11" width="28" height="19" rx="3" fill="#FFFDF8"/><path d="M7 13 L20 22 L33 13" fill="none" stroke="#D9578C" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <span class="notif-body">
+      <span class="notif-app"><span>চিঠি</span><span class="notif-when">নতুন</span></span>
+      <span class="notif-title">আপনার জন্য একটা আবেদনপত্র</span>
+      <span class="notif-text">ছুঁয়ে পড়ুন</span>
+    </span>
+  </button>
   <button class="notif notif-poster" id="posterBtn" type="button" hidden>
     <span class="notif-icon notif-icon-cal" aria-hidden="true"><span id="posterBtnDay"></span></span>
     <span class="notif-body">
@@ -41,6 +51,12 @@
   </button>
   <p class="lock-hint" id="lockHint"></p>
 </section>
+
+<!-- Appointment letter -->
+<div class="poster-view letter-view" id="letterView" role="dialog" aria-modal="true" aria-label="আবেদনপত্র" hidden>
+  <img id="letterImg" alt="আবেদনপত্র: ৫ ডিসেম্বর দেখা করার এপয়েন্টমেন্ট" width="1440" height="2026">
+  <button type="button" class="pv-close" id="letterClose" aria-label="বন্ধ করুন">✕</button>
+</div>
 
 <!-- Today's countdown poster -->
 <div class="poster-view" id="posterView" role="dialog" aria-modal="true" aria-label="আজকের পোস্টার" hidden>
@@ -202,8 +218,8 @@
   <button class="lb-arrow lb-next" id="lbNext" type="button" aria-label="পরের ছবি">›</button>
 </dialog>
 
-<script src="data/content.js?v=20261123b"></script>
-<script src="data/meets.js?v=20261123b"></script>
-<script src="app.js?v=20261123b"></script>
+<script src="data/content.js?v=20261125a"></script>
+<script src="data/meets.js?v=20261125a"></script>
+<script src="app.js?v=20261125a"></script>
 </body>
 </html>
