@@ -73,9 +73,6 @@ button { font: inherit; color: inherit; }
 .notif-text { font-size: .95rem; line-height: 1.5; color: var(--ink-soft); }
 .lock-hint { margin: 0; font-size: .9rem; opacity: .8; min-height: 1.5em; text-align: center; }
 @keyframes notifIn { from { opacity: 0; transform: translateY(-18px) scale(.97); } }
-.notif-poster { margin-top: 0; animation-delay: 1.3s; }
-.notif-poster .notif-body { flex: 1; }
-.notif-icon-cal { background: var(--churi); color: #fff; font-weight: 700; font-size: 1.15rem; line-height: 1; }
 .poster-view {
   position: fixed; inset: 0; z-index: 80;
   display: grid; place-items: center;
@@ -91,9 +88,18 @@ button { font: inherit; color: inherit; }
   background: rgba(255,253,248,.9); color: var(--ink); font-size: 1.2rem; cursor: pointer;
 }
 @keyframes pvIn { from { opacity: 0; } }
-.notif-letter { animation-delay: 1.15s; }
-.notif-icon-mail { background: var(--churi); }
-.notif-icon-mail svg { width: 2rem; height: 2rem; }
+.mini-row { display: flex; gap: .6rem; justify-content: center; flex-wrap: wrap; margin: 0 0 .9rem; animation: notifIn .7s 1.2s both cubic-bezier(.2,.8,.2,1); }
+.mini-btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .35rem .95rem .35rem .4rem; border: 0; border-radius: 999px;
+  background: rgba(255,253,248,.88); color: var(--ink);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.22);
+  font-size: .95rem; font-weight: 700; line-height: 1.2; cursor: pointer;
+}
+.mini-btn[hidden] { display: none; }
+.mini-icon { flex: none; width: 1.9rem; height: 1.9rem; border-radius: 50%; background: var(--churi); color: #fff; display: grid; place-items: center; font-size: .9rem; font-weight: 700; }
+.mini-icon svg { width: 1.45rem; height: 1.45rem; }
 .letter-view { place-items: start center; overflow-y: auto; overscroll-behavior: contain; padding-top: max(4rem, env(safe-area-inset-top)); }
 .letter-view img { max-height: none; width: min(100%, 760px); height: auto; border-radius: .6rem; }
 .letter-view .pv-close { position: fixed; }

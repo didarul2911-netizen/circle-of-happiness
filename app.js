@@ -77,9 +77,7 @@
     if (left === posterDay) return;
     posterDay = left;
     $("#posterBtnDay").textContent = bn(dhakaNow.getUTCDate());
-    $("#posterBtnDate").textContent = MONTHS[dhakaNow.getUTCMonth()];
-    $("#posterBtnTitle").textContent = left === 1 ? "কাল জন্মদিন!" : "আজকের পোস্টারটা এসে গেছে";
-    posterImg.src = `assets/posters/d${left}.jpg?v=20261125a`;
+    posterImg.src = `assets/posters/d${left}.jpg?v=20261125b`;
     posterImg.alt = `আর ${bn(left)} দিনের পোস্টার`;
   }
   function closePoster() { posterView.hidden = true; posterBtn.focus({ preventScroll: true }); }
@@ -91,7 +89,7 @@
   /* ---------- Appointment letter (until the gift opens) ---------- */
   function openLetter() {
     const li = $("#letterImg");
-    if (!li.getAttribute("src")) li.src = "assets/letters/appointment.jpg?v=20261125a";
+    if (!li.getAttribute("src")) li.src = "assets/letters/appointment.jpg?v=20261125b";
     letterView.hidden = false; letterView.scrollTop = 0; $("#letterClose").focus();
   }
   function closeLetter() { letterView.hidden = true; letterBtn.focus({ preventScroll: true }); }
