@@ -77,7 +77,7 @@
     if (left === posterDay) return;
     posterDay = left;
     $("#posterBtnDay").textContent = bn(dhakaNow.getUTCDate());
-    posterImg.src = `assets/posters/d${left}.jpg?v=20261128a`;
+    posterImg.src = `assets/posters/d${left}.jpg?v=20261128b`;
     posterImg.alt = `আর ${bn(left)} দিনের পোস্টার`;
   }
   function closePoster() { posterView.hidden = true; posterBtn.focus({ preventScroll: true }); }
@@ -89,7 +89,7 @@
   /* ---------- Appointment letter (until the gift opens) ---------- */
   function openLetter() {
     const li = $("#letterImg");
-    if (!li.getAttribute("src")) li.src = "assets/letters/appointment.jpg?v=20261128a";
+    if (!li.getAttribute("src")) li.src = "assets/letters/appointment.jpg?v=20261128b";
     letterView.hidden = false; letterView.scrollTop = 0; $("#letterClose").focus();
   }
   function closeLetter() { letterView.hidden = true; letterBtn.focus({ preventScroll: true }); }
