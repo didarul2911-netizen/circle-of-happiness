@@ -77,7 +77,7 @@
     if (left === posterDay) return;
     posterDay = left;
     $("#posterBtnDay").textContent = bn(dhakaNow.getUTCDate());
-    posterImg.src = `assets/posters/d${left}.jpg?v=20261125c`;
+    posterImg.src = `assets/posters/d${left}.jpg?v=20261128a`;
     posterImg.alt = `আর ${bn(left)} দিনের পোস্টার`;
   }
   function closePoster() { posterView.hidden = true; posterBtn.focus({ preventScroll: true }); }
@@ -89,7 +89,7 @@
   /* ---------- Appointment letter (until the gift opens) ---------- */
   function openLetter() {
     const li = $("#letterImg");
-    if (!li.getAttribute("src")) li.src = "assets/letters/appointment.jpg?v=20261125c";
+    if (!li.getAttribute("src")) li.src = "assets/letters/appointment.jpg?v=20261128a";
     letterView.hidden = false; letterView.scrollTop = 0; $("#letterClose").focus();
   }
   function closeLetter() { letterView.hidden = true; letterBtn.focus({ preventScroll: true }); }
@@ -115,6 +115,7 @@
     ["bday", "mem"].forEach((v) => { $("#" + v).hidden = v !== id; });
     $$(".part-tab").forEach((t) => t.dataset.go === id ? t.setAttribute("aria-current", "page") : t.removeAttribute("aria-current"));
     $$("video").forEach((v) => { if (!v.closest("#" + id)) v.pause(); });
+    document.body.classList.toggle("gift-on", id === "bday" && !$("#gIntro").hidden);
     window.scrollTo(0, 0);
     if (history.replaceState) history.replaceState(null, "", location.search + (id === "mem" ? "#memories" : ""));
   }
@@ -122,33 +123,9 @@
   if (location.hash === "#memories") goPart("mem");
 
   /* =====================================================================
-     PART 1: BIRTHDAY, one page at a time
+     PART 1: BIRTHDAY, one scrolling page (gift → wish → letter → photos → cake → end)
      ===================================================================== */
-  const scenes = $$(".scene");
-  const done = new Set(["s-wish", "s-collage"]);   // pages that need no action before "next"
-  let si = 0;
-  $("#dots").innerHTML = scenes.map(() => `<span class="dot-pg"></span>`).join("");
-
-  function show(i) {
-    const prev = scenes[si];
-    si = Math.max(0, Math.min(scenes.length - 1, i));
-    const cur = scenes[si];
-    if (prev !== cur) prev.hidden = true;
-    cur.hidden = false;
-    cur.classList.remove("enter"); void cur.offsetWidth; cur.classList.add("enter");
-    $$(".dot-pg").forEach((d, k) => d.classList.toggle("on", k === si));
-    $("#pgPrev").disabled = si === 0;
-    updateNext();
-    window.scrollTo(0, 0);
-    if (cur.id === "s-wish") playWish();
-  }
-  function updateNext() {
-    const cur = scenes[si];
-    $("#pgNext").hidden = si === scenes.length - 1 || !done.has(cur.id);
-  }
-  function complete(id) { done.add(id); if (scenes[si].id === id) updateNext(); }
-  $("#pgNext").addEventListener("click", () => show(si + 1));
-  $("#pgPrev").addEventListener("click", () => show(si - 1));
+  const bday = $("#bday");
 
   /* Happy Birthday tune, played as a soft music box (the melody is public domain) */
   function playHappyBirthday() {
@@ -179,189 +156,189 @@
     setTimeout(() => ac.close && ac.close(), (t - ac.currentTime + 2) * 1000);
   }
 
-  /* 1. Gift */
-  $("#gift").addEventListener("click", function () {
-    if (this.classList.contains("open")) return;
-    this.classList.add("open");
-    $("#giftHint").textContent = "";
-    burst(this);
-    complete("s-gift");
-    const hb = $("#hbText"); hb.textContent = "Happy Birthday to you"; hb.classList.add("show");
-    playHappyBirthday();
-    setTimeout(() => { if (scenes[si].id === "s-gift") show(1); }, calm ? 1500 : 3400);
-  });
+  /* reveal on scroll */
+  const rvObs = "IntersectionObserver" in window ? new IntersectionObserver((es) => {
+    es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); rvObs.unobserve(e.target); } });
+  }, { threshold: 0.18, rootMargin: "0px 0px -6% 0px" }) : null;
+  const watch = (el) => rvObs ? rvObs.observe(el) : el.classList.add("in");
 
-  /* 2. Wish */
+  /* floating petals and butterflies */
+  if (!calm) {
+    const fl = $("#bFloat");
+    for (let i = 0; i < 9; i++) {
+      const s = document.createElement("i");
+      s.className = i % 3 === 0 ? "fly bfly" : "fly pet";
+      s.style.left = (i * 11 + 4) % 100 + "%";
+      s.style.animationDuration = 14 + (i % 4) * 4 + "s";
+      s.style.animationDelay = -(i * 2.7) + "s";
+      fl.appendChild(s);
+    }
+  }
+
+  /* 0. Gift: ribbon off, lid up, a flash, then the page */
+  const gIntro = $("#gIntro"), gBox = $("#gBox");
+  function openBox() {
+    if (gBox.classList.contains("open")) return;
+    gBox.classList.add("open");
+    $("#gHint").textContent = "";
+    playHappyBirthday();
+    setTimeout(() => {
+      gIntro.classList.add("flash");
+      const hb = $("#hbText"); hb.textContent = "Happy Birthday to you"; hb.classList.add("show");
+    }, calm ? 100 : 1500);
+    setTimeout(() => {
+      gIntro.classList.add("gone");
+      document.body.classList.remove("gift-on");
+      window.scrollTo(0, 0);
+      $$("#bHero .rv").forEach((el) => el.classList.add("in"));
+      playWish();
+    }, calm ? 900 : 4300);
+    setTimeout(() => { gIntro.hidden = true; }, calm ? 1200 : 5200);
+  }
+  gBox.addEventListener("click", openBox);
+  function resetGift() {
+    gIntro.hidden = false;
+    gIntro.classList.remove("flash", "gone");
+    gBox.classList.remove("open");
+    $("#hbText").textContent = ""; $("#hbText").classList.remove("show");
+    $("#gHint").textContent = "উপহারটা খুলতে ক্লিক করুন";
+    document.body.classList.add("gift-on");
+    window.scrollTo(0, 0);
+  }
+  document.body.classList.add("gift-on");
+
+  /* 1. Wish */
   $("#heroImg").src = img(C.heroPhoto);
   $("#heroName").textContent = C.name;
-  $("#heroLine").textContent = `${fmtDate(C.birthday, false)}, পরিচয়ের ${ord(dayNo)} দিন`;
+  $("#heroLine").textContent = `পরিচয়ের ${ord(dayNo)} দিন`;
+  $("#heroDate").textContent = fmtDate(C.birthday) + " " + bn(by);
   // split into grapheme-ish chunks so Bangla vowel signs stay with their letter
   const chunks = (w) => w.match(/[ঀ-৿](?:[া-ৌৗঁ-ঃ্][ঀ-৿]?)*|./g) || [w];
-  $("#bigWish").innerHTML = ["শুভ", "জন্মদিন"].map((w, wi) =>
-    `<span class="w w${wi}">${chunks(w).map((ch, k) => `<span class="ch" style="--k:${k + wi * 3}">${ch}</span>`).join("")}</span>`).join("");
+  $("#bigWish").innerHTML = ["শুভ", "জন্মদিন!"].map((w, wi) =>
+    `<span class="w w${wi}">${chunks(w).map((ch, k) => `<span class="ch" style="--k:${k + wi * 3}">${ch}</span>`).join("")}</span>`).join(" ");
   function playWish() {
-    const s = $("#s-wish");
+    const s = $("#bigWish");
     s.classList.remove("play"); void s.offsetWidth; s.classList.add("play");
   }
 
-  /* 3. Stack (childhood first) */
-  const stackList = [C.childhood, ...C.stack];
-  const stackEl = $("#stack");
-  stackEl.innerHTML = stackList.map((p, k) => {
-    const r = [-3, 4, -5, 2, -2, 5, -4][k % 7];
-    return `<figure class="pola stack-card${k === 0 ? " child" : ""}" style="--r:${r}deg; z-index:${stackList.length - k}"><span class="tape"></span><img src="${img(p.img)}" alt="" loading="${k < 2 ? "eager" : "lazy"}">${p.cap ? `<figcaption>${esc(p.cap)}</figcaption>` : `<span class="pola-blank"></span>`}</figure>`;
-  }).join("");
-  let top = 0;
-  const cards = $$(".stack-card");
-  stackEl.addEventListener("click", () => {
-    if (top >= cards.length) return;
-    const c = cards[top];
-    c.style.setProperty("--fly", (top % 2 ? -1 : 1) * 130 + "%");
-    c.classList.add("gone");
-    top++;
-    if (top === cards.length) {
-      complete("s-stack");
-      // the pile comes back so it can be seen again
-      setTimeout(() => {
-        cards.forEach((x) => x.classList.remove("gone"));
-        top = 0;
-        $("#stackHint").textContent = "আবার দেখতে টোকা দিন";
-      }, 450);
-    } else {
-      $("#stackHint").textContent = `আরও ${bn(cards.length - top)}টা`;
-    }
-  });
-
-  /* 4. Letter: envelope opens, then the words type out */
-  const paper = $("#paper");
+  /* 2. Letter: envelope opens, then a fountain pen writes it on the pad */
+  const pad = $("#pad"), padBody = $("#padBody"), pen = $("#pen");
+  $("#padDate").textContent = bn(bd) + " " + MONTHS[bm - 1] + " " + bn(by);
+  let writing = null;
   $("#envelope").addEventListener("click", function () {
     if (this.classList.contains("open")) return;
     this.classList.add("open");
     $("#letterHint").textContent = "";
-    setTimeout(() => { this.hidden = true; paper.hidden = false; typeLetter(); }, calm ? 100 : 1500);
+    setTimeout(() => {
+      this.hidden = true; pad.hidden = false;
+      requestAnimationFrame(() => pad.classList.add("show"));
+      setTimeout(writeLetter, calm ? 50 : 700);
+    }, calm ? 100 : 1500);
   });
-  function typeLetter() {
+  function writeLetter() {
     const texts = [...C.letter, C.signature];
-    paper.innerHTML = texts.map((_, i) => `<p class="${i === 0 ? "salute" : i === texts.length - 1 ? "sign" : ""}"></p>`).join("");
-    const els = $$("#paper p");
-    let pi = 0, ci = 0, timer = null, over = false;
+    padBody.innerHTML = texts.map((t, i) => {
+      const cls = i === 0 ? "salute" : i === texts.length - 1 ? "sign" : "";
+      return `<p class="${cls}">${t.split(/(\s+)/).map((w) => /^\s+$/.test(w) ? w : `<span class="wd">${esc(w)}</span>`).join("")}</p>`;
+    }).join("");
+    const words = $$("#padBody .wd");
+    let i = 0, timer = null, over = false, userScrolled = false;
+    const onScroll = () => { userScrolled = true; };
     const finish = () => {
       if (over) return; over = true;
       clearTimeout(timer);
-      els.forEach((e, k) => { e.textContent = texts[k]; e.classList.remove("typing"); });
+      words.forEach((w) => w.classList.add("done"));
+      pen.classList.add("away");
       $("#letterHint").textContent = "";
-      complete("s-letter");
+      window.removeEventListener("wheel", onScroll); window.removeEventListener("touchmove", onScroll);
     };
+    writing = finish;
     if (calm) return finish();
-    $("#letterHint").textContent = "পুরোটা একসাথে দেখতে চিঠিতে টোকা দিন";
-    paper.addEventListener("click", finish, { once: true });
+    $("#letterHint").textContent = "একসাথে পড়তে চিঠিতে ক্লিক করুন";
+    pad.addEventListener("click", finish, { once: true });
+    window.addEventListener("wheel", onScroll, { passive: true });
+    window.addEventListener("touchmove", onScroll, { passive: true });
+    const padBox = () => pad.getBoundingClientRect();
     const step = () => {
-      if (pi >= texts.length) return finish();
-      const chars = chunks(texts[pi]);
-      els[pi].textContent = chars.slice(0, ++ci).join("");
-      els[pi].classList.add("typing");
-      if (ci >= chars.length) { els[pi].classList.remove("typing"); pi++; ci = 0; timer = setTimeout(step, 380); }
-      else timer = setTimeout(step, 34);
+      if (over) return;
+      if (i >= words.length) return finish();
+      const w = words[i];
+      const len = Math.max(2, chunks(w.textContent).length);
+      const dur = Math.min(900, 70 + len * 55);
+      const pr = padBox(), r = w.getBoundingClientRect();
+      const x0 = r.left - pr.left, x1 = r.right - pr.left, y = r.bottom - pr.top - 4;
+      pen.style.transition = "none";
+      pen.style.transform = `translate(${x0}px, ${y}px)`;
+      void pen.offsetWidth;
+      pen.style.transition = `transform ${dur}ms linear`;
+      pen.style.transform = `translate(${x1}px, ${y - 2}px)`;
+      w.style.setProperty("--dur", dur + "ms");
+      w.classList.add("writing");
+      // keep the pen in view unless she is scrolling by herself
+      if (!userScrolled && r.bottom > innerHeight - 90) window.scrollBy({ top: r.bottom - innerHeight + 200, behavior: "smooth" });
+      const isEnd = /[।?!,]$/.test(w.textContent) || w === w.parentElement.lastElementChild;
+      timer = setTimeout(() => { w.classList.add("done"); i++; step(); }, dur + (isEnd ? 260 : 70));
     };
     step();
   }
 
-  /* 5. Collage: drag the photos around, tap to enlarge */
-  lbGroups.collage = C.collage;
-  const col = $("#collage");
-  const spots = [[2, 2, -6], [48, 0, 5], [24, 24, -2], [0, 48, 4], [50, 44, -5], [22, 66, 3]];
-  col.innerHTML = C.collage.map((p, k) => {
-    const [x, y, r] = spots[k % spots.length];
-    return `<figure class="pola drag" style="left:${x}%; top:${y}%; --r:${r}deg; --k:${k}"><span class="tape"></span><img src="${img(p)}" alt="" loading="lazy" draggable="false"></figure>`;
+  /* 3. Photos: scattered polaroids, click to see big */
+  const photos = [C.childhood, ...C.stack].map((p) => p.img);
+  lbGroups.bday = photos;
+  $("#scatter").innerHTML = photos.map((p, k) => {
+    const r = [-4, 3, -2, 5, -5, 2, -3, 4, -1, 3][k % 10];
+    return `<button type="button" class="sc-card${k === 0 ? " first" : ""} rv" data-lb="bday" data-k="${k}" style="--r:${r}deg; --d:${(k % 2) * 0.12}s" aria-label="ছবি ${bn(k + 1)}"><span class="tape"></span><img src="${img(p)}" alt="" loading="lazy"></button>`;
   }).join("");
-  let zTop = 10;
-  $$(".drag").forEach((el, idx) => {
-    let sx, sy, ox, oy, moved;
-    el.addEventListener("pointerdown", (e) => {
-      el.setPointerCapture(e.pointerId);
-      sx = e.clientX; sy = e.clientY; ox = el.offsetLeft; oy = el.offsetTop; moved = false;
-      el.style.zIndex = ++zTop; el.classList.add("held");
-    });
-    el.addEventListener("pointermove", (e) => {
-      if (sx === undefined) return;
-      const dx = e.clientX - sx, dy = e.clientY - sy;
-      if (Math.abs(dx) + Math.abs(dy) > 6) moved = true;
-      const W = col.clientWidth - el.offsetWidth, H = col.clientHeight - el.offsetHeight;
-      el.style.left = Math.max(-20, Math.min(W + 20, ox + dx)) + "px";
-      el.style.top = Math.max(-10, Math.min(H + 10, oy + dy)) + "px";
-    });
-    const up = () => {
-      if (sx === undefined) return;
-      sx = undefined; el.classList.remove("held");
-      if (!moved) { lbList = C.collage; lbI = idx; showLb(); lb.showModal(); }
-    };
-    el.addEventListener("pointerup", up);
-    el.addEventListener("pointercancel", up);
-  });
 
-  /* 6. Cake: candles go out by tap or by blowing into the mic */
-  const candleG = $("#candles");
-  [84, 120, 156].forEach((x, k) => {
+  /* 4. Cake: real-looking flames, click a candle to blow it out */
+  const cf = $("#cakeFlowers");
+  [[118, 158, 1], [150, 168, .8], [262, 160, 1.05], [296, 170, .75], [72, 268, 1], [104, 282, .8], [312, 276, 1.1], [342, 292, .7], [200, 380, 0]].forEach(([x, y, s]) => {
+    if (!s) return;
     const g = document.createElementNS(NS, "g");
-    g.innerHTML = `<rect x="${x - 4}" y="72" width="8" height="40" rx="3" fill="${["#D9578C", "#F2B01E", "#5F8B4C"][k]}"/>
-      <g class="flame" style="transform-origin:${x}px 72px; animation-delay:${k * 0.2}s"><ellipse cx="${x}" cy="58" rx="7" ry="13" fill="#F2B01E"/><ellipse cx="${x}" cy="62" rx="3.4" ry="7" fill="#FFF3C4"/></g>
-      <g class="smoke"><circle cx="${x}" cy="48" r="5"/><circle cx="${x + 4}" cy="38" r="4"/><circle cx="${x - 2}" cy="28" r="3"/></g>`;
-    candleG.appendChild(g);
+    g.setAttribute("transform", `translate(${x} ${y}) scale(${s})`);
+    g.innerHTML = `<g fill="#7FA36B"><ellipse cx="-16" cy="6" rx="10" ry="4" transform="rotate(-25 -16 6)"/><ellipse cx="17" cy="8" rx="10" ry="4" transform="rotate(30 17 8)"/></g>` +
+      [0, 72, 144, 216, 288].map((a) => `<ellipse cx="0" cy="-10" rx="7.5" ry="11" fill="url(#petal)" transform="rotate(${a})"/>`).join("") +
+      `<circle r="5" fill="#E9B23A"/><circle r="2.4" fill="#C98A0C"/>`;
+    cf.appendChild(g);
   });
-  let blown = false, stream = null;
-  function blowOut() {
-    if (blown) return;
-    blown = true;
-    $("#cakeBtn").classList.add("blown");
-    $("#cakeBtn").setAttribute("aria-label", "মোমবাতি নিভে গেছে");
-    $("#micBtn").hidden = true; $("#cakeHint").hidden = true;
-    $("#cakeTitle").textContent = "ইচ্ছাটা পূরণ হোক";
-    $("#cakeDone").hidden = false;
-    if (stream) { stream.getTracks().forEach((t) => t.stop()); stream = null; }
-    if (!calm) setTimeout(petalRain, 500);
-    complete("s-cake");
-  }
-  $("#cakeBtn").addEventListener("click", blowOut);
-  $("#micBtn").addEventListener("click", async function () {
-    try {
-      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      this.textContent = "এবার জোরে ফুঁ দিন…";
-      this.disabled = true;
-      const ac = new (window.AudioContext || window.webkitAudioContext)();
-      const an = ac.createAnalyser(); an.fftSize = 512;
-      ac.createMediaStreamSource(stream).connect(an);
-      const buf = new Uint8Array(an.fftSize);
-      let loud = 0;
-      const listen = () => {
-        if (blown) { ac.close(); return; }
-        an.getByteTimeDomainData(buf);
-        let sum = 0; for (const v of buf) { const x = (v - 128) / 128; sum += x * x; }
-        loud = Math.sqrt(sum / buf.length) > 0.18 ? loud + 1 : Math.max(0, loud - 1);
-        if (loud > 6) { blowOut(); ac.close(); return; }
-        requestAnimationFrame(listen);
-      };
-      listen();
-    } catch (err) {
-      this.hidden = true;
-      $("#cakeHint").textContent = "মাইক চালু হলো না। মোমবাতিগুলো ছুঁয়ে দিন।";
+  const CANDLES = 5;
+  $("#candles").innerHTML = Array.from({ length: CANDLES }, (_, k) =>
+    `<button type="button" class="candle" style="--x:${(k - (CANDLES - 1) / 2) * 13}%; --h:${[78, 92, 100, 88, 74][k]}%" aria-label="মোমবাতি ${bn(k + 1)}">
+      <span class="wick"></span><span class="flame"><i></i></span><span class="smoke"><i></i><i></i><i></i></span><span class="stick"></span></button>`).join("");
+  let lit = CANDLES;
+  function blow(c) {
+    if (!c || c.classList.contains("out")) return;
+    c.classList.add("out");
+    lit--;
+    $("#cakeGlow").style.opacity = String(lit / CANDLES);
+    if (lit === 0) {
+      $("#cakeHint").textContent = "";
+      $("#cakeDone").hidden = false;
+      if (!calm) { burst($("#cakeWrap")); setTimeout(petalRain, 400); }
     }
+  }
+  $("#candles").addEventListener("click", (e) => blow(e.target.closest(".candle")));
+  $(".cake-svg").addEventListener("click", () => blow($(".candle:not(.out)")));
+  function resetCake() {
+    $$(".candle").forEach((c) => c.classList.remove("out"));
+    lit = CANDLES; $("#cakeGlow").style.opacity = "1";
+    $("#cakeDone").hidden = true; $("#cakeHint").textContent = "মোমবাতিতে ক্লিক করুন";
+  }
+
+  /* 5. End */
+  $("#endSign").textContent = C.signature;
+  $("#replayBtn").addEventListener("click", () => {
+    if (writing) writing();
+    $("#envelope").hidden = false; $("#envelope").classList.remove("open");
+    pad.hidden = true; pad.classList.remove("show"); pen.classList.remove("away"); padBody.innerHTML = "";
+    $("#letterHint").textContent = "চিঠিটা খুলতে ক্লিক করুন";
+    resetCake();
+    resetGift();
   });
 
-  /* 7. Wish */
-  $("#meetBtn").href = C.meetLink;
-  $("#wishForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const f = $("#wishForm");
-    f.classList.add("fold");
-    setTimeout(() => {
-      f.hidden = true;
-      $("#wishText").value = "";
-      $("#wishSent").hidden = false;
-      if (!calm) petalRain();
-    }, calm ? 50 : 1100);
-  });
+  $$("#bday .rv").forEach((el) => { if (!el.closest("#bHero")) watch(el); });
+  if (params.get("preview") === "open" && params.has("skipgift")) { gIntro.hidden = true; document.body.classList.remove("gift-on"); $$("#bHero .rv").forEach((el) => el.classList.add("in")); playWish(); }
 
-  show(0);
 
   /* ---------- effects ---------- */
   function burst(anchor) {
